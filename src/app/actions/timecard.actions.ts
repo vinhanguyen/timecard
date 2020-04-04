@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { State } from '../reducers/timecard.reducer';
+import { Entry } from '../models/entry';
 
 export const load = createAction(
   '[Timecard] Load'
@@ -21,4 +22,9 @@ export const punch = createAction(
 
 export const clear = createAction(
   '[Timecard] Clear'
+);
+
+export const remove = createAction(
+  '[Timecard] Remove',
+  props<{ entry: Entry }>()
 );

@@ -4,7 +4,7 @@ import { State } from '../reducers';
 import { Entry } from '../models/entry';
 import { Observable } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
-import { punch, load, clear } from '../actions/timecard.actions';
+import { punch, load, clear, remove } from '../actions/timecard.actions';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -30,6 +30,10 @@ export class TimecardComponent implements OnInit {
 
   punch() {
     this.store.dispatch(punch());
+  }
+
+  remove(entry: Entry) {
+    this.store.dispatch(remove({entry}))
   }
 
   clear() {
