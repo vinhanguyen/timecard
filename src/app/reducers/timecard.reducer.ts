@@ -6,38 +6,32 @@ import * as _ from 'lodash';
 export const timecardFeatureKey = 'timecard';
 
 export interface State {
-  current: Entry;
-  all: Entry[];
+  entries: Entry[];
 }
 
 export const initialState: State = {
-  current: null,
-  all: []
+  entries: []
 };
 
 const timecardReducer = createReducer(
   initialState,
+  on(loadSuccess, (state, {timecard}) => {
+    let next = _.cloneDeep(initialState);
+    
+    if (timecard) {
+      next.entries = timecard.entries;
+    }
+    return next;
+  }),
   on(punch, state => {
     let next = _.cloneDeep(state);
 
-    if (next.current) {
-      next.current.stop = Date.now();
-      next.all.push(next.current);
-      next.current = null;
+    let current = next.entries.find(entry => !entry.stop);
+    if (current) {
+      current.stop = Date.now();
     } else {
-      next.current = {start: Date.now()} as Entry;
+      next.entries.push({start: Date.now()});
     }
-
-    return next;
-  }),
-  on(loadSuccess, (state, {timecard}) => {
-    let next = _.cloneDeep(initialState);
-
-    if (timecard) {
-      next.current = timecard.current;
-      next.all = timecard.all;
-    }
-
     return next;
   }),
   on(clear, (state) => {

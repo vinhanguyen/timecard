@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import { Entry } from '../models/entry';
 import { Observable } from 'rxjs';
-import { selectCurrent, selectAll } from '../selectors/timecard.selectors';
+import { selectEntries } from '../selectors/timecard.selectors';
 import { punch, load, clear } from '../actions/timecard.actions';
 import { map } from 'rxjs/operators';
 
@@ -14,17 +14,18 @@ import { map } from 'rxjs/operators';
 })
 export class TimecardComponent implements OnInit {
 
-  current$: Observable<Entry>;
-  all$: Observable<Entry[]>;
+  entries$: Observable<Entry[]>;
   confirm: boolean;
+  working$: Observable<boolean>;
 
   constructor(private store: Store<State>) { }
 
   ngOnInit() {
-    this.current$ = this.store.select(selectCurrent);
-    this.all$ = this.store.select(selectAll);
-
+    this.entries$ = this.store.select(selectEntries);
     this.store.dispatch(load());
+    this.working$ = this.store.select(selectEntries).pipe(
+      map(entries => entries.some(entry => !entry.stop))
+    );
   }
 
   punch() {
@@ -37,15 +38,17 @@ export class TimecardComponent implements OnInit {
   }
 
   subtotal(entry: Entry) {
-    return entry.stop - entry.start;
+    if (entry.stop) {
+      return entry.stop - entry.start;
+    } else {
+      return 0;
+    }
   }
 
-  total() {
-    return this.all$.pipe(
-      map(all => all.reduce((total, entry) => {
-        return total + this.subtotal(entry);
-      }, 0))
-    );
+  total(entries: Entry[]) {
+    return entries.reduce((total, entry) => {
+      return total + this.subtotal(entry);
+    }, 0);
   }
 
 }

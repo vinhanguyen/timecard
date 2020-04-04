@@ -1,6 +1,5 @@
 <div>
-    <button *ngIf="!(current$ | async)" (click)="punch()">Start</button>
-    <button *ngIf="current$ | async" (click)="punch()">Stop</button>
+    <button (click)="punch()" [ngClass]="{start: !(working$|async), stop: (working$|async)}">{{(working$ | async) ? 'Stop' : 'Start'}}</button>
 </div>
 <table>
     <thead>
@@ -11,21 +10,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let entry of all$ | async">
+        <tr *ngFor="let entry of entries$ | async">
             <td>{{entry.start | date:'h:mm:ss aa'}}</td>
             <td>{{entry.stop | date:'h:mm:ss aa'}}</td>
             <td>{{subtotal(entry) | hms}}</td>
         </tr>
-        <tr *ngIf="current$ | async as entry">
-            <td>{{entry.start | date:'h:mm:ss aa'}}</td>
-            <td>{{entry.stop | date:'h:mm:ss aa'}}</td>
-            <td></td>
-        </tr>
     </tbody>
-    <tfoot>
+    <tfoot *ngIf="entries$ | async as entries">
         <tr>
-            <th colspan="2"></th>
-            <th>{{total() | async | hms}}</th>
+            <td colspan="2"></td>
+            <td>{{total(entries) | hms}} ({{total(entries) | hms:true}})</td>
         </tr>
     </tfoot>
 </table>
