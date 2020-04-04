@@ -37,15 +37,14 @@ export class TimecardComponent implements OnInit {
   }
 
   subtotal(entry: Entry) {
-    return (entry.stop - entry.start)/1000/60/60;
+    return entry.stop - entry.start;
   }
 
   total() {
     return this.all$.pipe(
       map(all => all.reduce((total, entry) => {
-        return total + (entry.stop - entry.start);
-      }, 0)),
-      map(total => total/1000/60/60)
+        return total + this.subtotal(entry);
+      }, 0))
     );
   }
 
