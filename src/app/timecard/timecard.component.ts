@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
 import { punch, load, clear, remove } from '../actions/timecard.actions';
 import { map } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-timecard',
@@ -17,6 +18,7 @@ export class TimecardComponent implements OnInit {
   entries$: Observable<Entry[]>;
   confirm: boolean;
   working$: Observable<boolean>;
+  title: string;
 
   constructor(private store: Store<State>) { }
 
@@ -26,6 +28,7 @@ export class TimecardComponent implements OnInit {
     this.working$ = this.store.select(selectEntries).pipe(
       map(entries => entries.some(entry => !entry.stop))
     );
+    this.title = `Timecard for ${formatDate(Date.now(), 'M/d/yyyy', 'en-US')}`;
   }
 
   punch() {
