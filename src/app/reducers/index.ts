@@ -10,12 +10,12 @@ import * as fromTimecard from './timecard.reducer';
 
 export interface State {
 
-  [fromTimecard.timecardFeatureKey]: fromTimecard.State;
+  timecard: fromTimecard.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
 
-  [fromTimecard.timecardFeatureKey]: fromTimecard.reducer,
+  timecard: fromTimecard.reducer,
 };
 
 

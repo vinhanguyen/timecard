@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "timecard-74361": {
+      "hosting": {
+        "timecard": [
+          "timecard-74361"
+        ]
+      }
+    }
+  }
+}

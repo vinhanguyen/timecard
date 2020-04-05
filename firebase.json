@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "timecard",
+      "public": "dist/timecard",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

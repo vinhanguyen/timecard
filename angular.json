@@ -122,9 +122,14 @@
               "devServerTarget": "timecard:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "timecard",
   "cli": {
     "defaultCollection": "@ngrx/schematics"
