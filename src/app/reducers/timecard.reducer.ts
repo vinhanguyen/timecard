@@ -22,13 +22,13 @@ const timecardReducer = createReducer(
     }
     return next;
   }),
-  on(punch, state => {
+  on(punch, (state, {time}) => {
     let next = _.cloneDeep(state);
     let current = next.entries.find(entry => !entry.stop);
     if (current) {
-      current.stop = Date.now();
+      current.stop = time;
     } else {
-      next.entries.push({start: Date.now()});
+      next.entries.push({start: time});
     }
     return next;
   }),

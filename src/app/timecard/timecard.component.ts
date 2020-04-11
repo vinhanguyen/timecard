@@ -39,7 +39,7 @@ export class TimecardComponent implements OnInit {
   }
 
   punch() {
-    this.store.dispatch(punch());
+    this.store.dispatch(punch({time: this.now}));
   }
 
   remove(entry: Entry) {

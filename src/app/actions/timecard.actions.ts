@@ -17,7 +17,8 @@ export const loadFailure = createAction(
 );
 
 export const punch = createAction(
-  '[Timecard] Punch'
+  '[Timecard] Punch',
+  props<{ time: number }>()
 );
 
 export const clear = createAction(
