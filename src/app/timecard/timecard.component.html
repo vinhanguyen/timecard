@@ -1,5 +1,5 @@
 <div>
-    <button (click)="punch()" [ngClass]="{start: !(working$|async), stop: (working$|async)}">{{(working$ | async) ? 'Stop' : 'Start'}}</button>
+    <button (click)="punch()" [ngClass]="{start: !(working$ | async), stop: (working$ | async)}">{{(working$ | async) ? 'Stop' : 'Start'}}</button>
 </div>
 <table>
     <thead>

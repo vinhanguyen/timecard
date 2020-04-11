@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import { Entry } from '../models/entry';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
 import { punch, load, clear, remove } from '../actions/timecard.actions';
 import { map } from 'rxjs/operators';
@@ -19,16 +19,23 @@ export class TimecardComponent implements OnInit {
   confirm: boolean;
   working$: Observable<boolean>;
   title: string;
+  now: number;
 
   constructor(private store: Store<State>) { }
 
   ngOnInit() {
     this.entries$ = this.store.select(selectEntries);
     this.store.dispatch(load());
+
     this.working$ = this.store.select(selectEntries).pipe(
       map(entries => entries.some(entry => !entry.stop))
     );
+    
     this.title = `Timecard for ${formatDate(Date.now(), 'M/d/yyyy', 'en-US')}`;
+    
+    timer(0, 1000).subscribe(() => {
+      this.now = Date.now();
+    });
   }
 
   punch() {
@@ -45,11 +52,7 @@ export class TimecardComponent implements OnInit {
   }
 
   subtotal(entry: Entry) {
-    if (entry.stop) {
-      return entry.stop - entry.start;
-    } else {
-      return 0;
-    }
+    return (entry.stop ? entry.stop : this.now) - entry.start;
   }
 
   total(entries: Entry[]) {
