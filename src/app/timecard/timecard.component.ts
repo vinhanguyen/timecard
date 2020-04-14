@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import { Entry } from '../models/entry';
-import { Observable, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
 import { punch, load, clear, remove } from '../actions/timecard.actions';
-import { map } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-timecard',
@@ -15,21 +15,23 @@ import { formatDate } from '@angular/common';
 })
 export class TimecardComponent implements OnInit {
 
-  entries$: Observable<Entry[]>;
+  entries: Entry[];
   confirm: boolean;
-  working$: Observable<boolean>;
+  working: boolean;
   title: string;
   now: number;
+  dataSource: MatTableDataSource<Entry>;
+  displayedColumns = ['start', 'stop', 'total', 'actions'];
 
   constructor(private store: Store<State>) { }
 
   ngOnInit() {
-    this.entries$ = this.store.select(selectEntries);
+    this.store.select(selectEntries).subscribe(entries => {
+      this.entries = entries;
+      this.dataSource = new MatTableDataSource(entries);
+      this.working = entries.some(entry => !entry.stop);
+    });
     this.store.dispatch(load());
-
-    this.working$ = this.store.select(selectEntries).pipe(
-      map(entries => entries.some(entry => !entry.stop))
-    );
     
     this.title = `Timecard for ${formatDate(Date.now(), 'M/d/yyyy', 'en-US')}`;
     

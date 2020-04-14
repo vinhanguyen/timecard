@@ -1,11 +1,5 @@
 table {
-    border-collapse: collapse;
-    margin: 5px 0;
-}
-
-th, td {
-    border: solid 1px black;
-    padding: 5px;
+    width: 100%;
 }
 
 .start {
@@ -16,4 +10,16 @@ th, td {
 .stop {
     background-color: red;
     color: white;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.footer {
+    padding: 1rem;
+}
+
+.footer button {
+    margin-left: 1rem;
 }

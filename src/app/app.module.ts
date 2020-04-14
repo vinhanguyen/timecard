@@ -8,6 +8,7 @@ import { reducers, metaReducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { TimecardModule } from './timecard/timecard.module';
 import { TimecardEffects } from './effects/timecard.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TimecardEffects } from './effects/timecard.effects';
       }
     }),
     EffectsModule.forRoot([TimecardEffects]),
-    TimecardModule
+    TimecardModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
