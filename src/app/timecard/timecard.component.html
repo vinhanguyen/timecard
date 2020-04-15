@@ -18,7 +18,7 @@
             </mat-checkbox>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <button mat-button color="warn" [disabled]="!selection.hasValue()" (click)="removeSelected()">
+            <button mat-icon-button [disabled]="!selection.hasValue()" (click)="removeSelected()">
                 <mat-icon>delete</mat-icon>
             </button>
         </td>
