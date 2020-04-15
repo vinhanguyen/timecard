@@ -4,9 +4,10 @@ import { State } from '../reducers';
 import { Entry } from '../models/entry';
 import { timer } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
-import { punch, load, clear, remove } from '../actions/timecard.actions';
+import { punch, load, remove } from '../actions/timecard.actions';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-timecard',
@@ -16,12 +17,12 @@ import { MatTableDataSource } from '@angular/material/table';
 export class TimecardComponent implements OnInit {
 
   entries: Entry[];
-  confirm: boolean;
   working: boolean;
   title: string;
   now: number;
   dataSource: MatTableDataSource<Entry>;
-  displayedColumns = ['start', 'stop', 'total', 'actions'];
+  displayedColumns = ['select', 'start', 'stop', 'total'];
+  selection = new SelectionModel<Entry>(true, []);
 
   constructor(private store: Store<State>) { }
 
@@ -44,13 +45,11 @@ export class TimecardComponent implements OnInit {
     this.store.dispatch(punch({time: this.now}));
   }
 
-  remove(entry: Entry) {
-    this.store.dispatch(remove({entry}))
-  }
-
-  clear() {
-    this.store.dispatch(clear());
-    this.confirm = false;
+  removeSelected() {
+    this.selection.selected.forEach(entry => {
+      this.selection.deselect(entry);
+      this.store.dispatch(remove({entry}));
+    });
   }
 
   subtotal(entry: Entry) {
@@ -61,6 +60,16 @@ export class TimecardComponent implements OnInit {
     return entries.reduce((total, entry) => {
       return total + this.subtotal(entry);
     }, 0);
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numEntries = this.dataSource.data.length;
+    return numSelected == numEntries;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(entry => this.selection.select(entry));
   }
 
 }

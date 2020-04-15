@@ -21,10 +21,6 @@ export const punch = createAction(
   props<{ time: number }>()
 );
 
-export const clear = createAction(
-  '[Timecard] Clear'
-);
-
 export const remove = createAction(
   '[Timecard] Remove',
   props<{ entry: Entry }>()

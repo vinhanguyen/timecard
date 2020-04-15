@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Entry } from '../models/entry';
-import { punch, loadSuccess, clear, remove } from '../actions/timecard.actions';
+import { punch, loadSuccess, remove } from '../actions/timecard.actions';
 import * as _ from 'lodash';
 
 export const timecardFeatureKey = 'timecard';
@@ -30,10 +30,6 @@ const timecardReducer = createReducer(
     } else {
       next.entries.push({start: time});
     }
-    return next;
-  }),
-  on(clear, (state) => {
-    let next = _.cloneDeep(initialState);
     return next;
   }),
   on(remove, (state, {entry}) => {
