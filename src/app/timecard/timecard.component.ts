@@ -18,7 +18,6 @@ export class TimecardComponent implements OnInit {
 
   entries: Entry[];
   working: boolean;
-  title: string;
   now: number;
   dataSource: MatTableDataSource<Entry>;
   displayedColumns = ['select', 'start', 'stop', 'total'];
@@ -33,8 +32,6 @@ export class TimecardComponent implements OnInit {
       this.working = entries.some(entry => !entry.stop);
     });
     this.store.dispatch(load());
-    
-    this.title = `Timecard for ${formatDate(Date.now(), 'M/d/yyyy', 'en-US')}`;
     
     timer(0, 1000).subscribe(() => {
       this.now = Date.now();

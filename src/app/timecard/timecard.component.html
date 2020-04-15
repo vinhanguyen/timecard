@@ -1,5 +1,5 @@
 <mat-toolbar>
-    <span>{{title}}</span>
+    <span>{{now | date:'E, MMM d, y'}}</span>
     <span class="spacer"></span>
     <button mat-raised-button (click)="punch()" [ngClass]="{start: !working, stop: working}">{{working ? 'Stop' : 'Start'}}</button>
 </mat-toolbar>
