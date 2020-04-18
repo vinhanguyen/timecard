@@ -8,9 +8,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [TimecardComponent, HmsPipe],
+  declarations: [TimecardComponent, HmsPipe, ConfirmComponent],
+  entryComponents: [ConfirmComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,7 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ]
 })
 export class TimecardModule { }

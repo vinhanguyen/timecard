@@ -5,9 +5,10 @@ import { Entry } from '../models/entry';
 import { timer } from 'rxjs';
 import { selectEntries } from '../selectors/timecard.selectors';
 import { punch, load, remove } from '../actions/timecard.actions';
-import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @Component({
   selector: 'app-timecard',
@@ -23,7 +24,7 @@ export class TimecardComponent implements OnInit {
   displayedColumns = ['select', 'start', 'stop', 'total'];
   selection = new SelectionModel<Entry>(true, []);
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.store.select(selectEntries).subscribe(entries => {
@@ -43,9 +44,14 @@ export class TimecardComponent implements OnInit {
   }
 
   removeSelected() {
-    this.selection.selected.forEach(entry => {
-      this.selection.deselect(entry);
-      this.store.dispatch(remove({entry}));
+    const dialogRef = this.dialog.open(ConfirmComponent);
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.selection.selected.forEach(entry => {
+          this.selection.deselect(entry);
+          this.store.dispatch(remove({entry}));
+        });
+      }
     });
   }
 
