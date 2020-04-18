@@ -40,6 +40,7 @@ export class TimecardComponent implements OnInit {
   }
 
   punch() {
+    this.selection.clear();
     this.store.dispatch(punch({time: this.now}));
   }
 
