@@ -1,7 +1,7 @@
 <mat-toolbar>
     <span>{{now | date:'E, MMM d, y'}}</span>
     <span class="spacer"></span>
-    <button mat-raised-button (click)="punch()" [ngClass]="{start: !working, stop: working}">{{working ? 'Stop' : 'Start'}}</button>
+    <button mat-flat-button (click)="punch()" [ngClass]="{start: !working, stop: working}">{{working ? 'Stop' : 'Start'}}</button>
 </mat-toolbar>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="select">
