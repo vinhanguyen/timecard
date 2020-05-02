@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { TimecardModule } from './timecard/timecard.module';
 import { TimecardEffects } from './effects/timecard.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }),
     EffectsModule.forRoot([TimecardEffects]),
     TimecardModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

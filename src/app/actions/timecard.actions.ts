@@ -41,3 +41,7 @@ export const changeJob = createAction(
   '[Timecard] Change Job',
   props<{ name: string }>()
 );
+
+export const clear = createAction(
+  '[Timecard] Clear'
+);

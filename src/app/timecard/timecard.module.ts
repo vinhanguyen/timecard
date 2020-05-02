@@ -15,10 +15,12 @@ import { JobsComponent } from './jobs/jobs.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { PreferencesComponent } from './preferences/preferences.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [TimecardComponent, HmsPipe, ConfirmComponent, JobsComponent],
-  entryComponents: [ConfirmComponent, JobsComponent],
+  declarations: [TimecardComponent, HmsPipe, ConfirmComponent, JobsComponent, PreferencesComponent],
+  entryComponents: [ConfirmComponent, JobsComponent, PreferencesComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,7 +34,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule
   ]
 })
 export class TimecardModule { }

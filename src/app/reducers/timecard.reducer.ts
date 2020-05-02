@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Entry } from '../models/entry';
-import { punch, loadSuccess, remove, addJob, deleteJob, changeJob } from '../actions/timecard.actions';
+import { punch, loadSuccess, remove, addJob, deleteJob, changeJob, clear } from '../actions/timecard.actions';
 import * as _ from 'lodash';
 import { Job } from '../models/job';
 
@@ -61,6 +61,10 @@ const timecardReducer = createReducer(
   on(changeJob, (state, {name}) => {
     let next = _.cloneDeep(state);
     next.currentJob = name;
+    return next;
+  }),
+  on(clear, state => {
+    let next = _.cloneDeep(initialState);
     return next;
   }),
 );

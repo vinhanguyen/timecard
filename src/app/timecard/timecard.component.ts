@@ -12,6 +12,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { Job } from '../models/job';
 import { mergeMap } from 'rxjs/operators';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @Component({
   selector: 'app-timecard',
@@ -104,6 +105,10 @@ export class TimecardComponent implements OnInit {
 
   toggleTitle() {
     this.showDate = !this.showDate;
+  }
+
+  openPreferences() {
+    this.dialog.open(PreferencesComponent);
   }
 
 }
