@@ -29,6 +29,7 @@ export class TimecardComponent implements OnInit {
   currentJob$: Observable<Job>;
   msInHour = 1000*60*60;
   showHms = true;
+  showDate = true;
 
   constructor(private store: Store<State>, private dialog: MatDialog) { }
 
@@ -99,6 +100,10 @@ export class TimecardComponent implements OnInit {
 
   toggleHms() {
     this.showHms = !this.showHms;
+  }
+
+  toggleTitle() {
+    this.showDate = !this.showDate;
   }
 
 }
