@@ -1,24 +1,31 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Entry } from '../models/entry';
-import { punch, loadSuccess, remove } from '../actions/timecard.actions';
+import { punch, loadSuccess, remove, addJob, deleteJob, changeJob } from '../actions/timecard.actions';
 import * as _ from 'lodash';
+import { Job } from '../models/job';
 
 export const timecardFeatureKey = 'timecard';
 
 export interface State {
   entries: Entry[];
+  jobs: Job[];
+  currentJob: string;
 }
 
 export const initialState: State = {
-  entries: []
+  entries: [],
+  jobs: [],
+  currentJob: null
 };
 
 const timecardReducer = createReducer(
   initialState,
   on(loadSuccess, (state, {timecard}) => {
-    let next = _.cloneDeep(initialState);
+    let next = _.cloneDeep(state);
     if (timecard) {
-      next.entries = timecard.entries;
+      next.entries = timecard.entries ? timecard.entries : next.entries;
+      next.jobs = timecard.jobs ? timecard.jobs : next.jobs;
+      next.currentJob = timecard.currentJob ? timecard.currentJob : next.currentJob;
     }
     return next;
   }),
@@ -28,13 +35,32 @@ const timecardReducer = createReducer(
     if (current) {
       current.stop = time;
     } else {
-      next.entries.push({start: time});
+      next.entries.push({start: time, job: next.currentJob});
     }
     return next;
   }),
   on(remove, (state, {entry}) => {
     let next = _.cloneDeep(state);
     next.entries = next.entries.filter(e => e.start !== entry.start);
+    return next;
+  }),
+  on(addJob, (state, {job}) => {
+    let next = _.cloneDeep(state);
+    next.jobs.push(job);
+    return next;
+  }),
+  on(deleteJob, (state, {job}) => {
+    let next = _.cloneDeep(state);
+    next.entries = next.entries.filter(e => e.job !== job.name);
+    next.jobs = next.jobs.filter(j => j.name !== job.name);
+    if (next.currentJob === job.name) {
+      next.currentJob = null;
+    }
+    return next;
+  }),
+  on(changeJob, (state, {name}) => {
+    let next = _.cloneDeep(state);
+    next.currentJob = name;
     return next;
   }),
 );

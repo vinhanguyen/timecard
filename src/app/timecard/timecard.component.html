@@ -1,7 +1,13 @@
 <mat-toolbar>
     <span>{{now | date:'E, MMM d, y'}}</span>
+    <mat-menu #menu>
+        <button mat-menu-item (click)="openJobs()">Jobs</button>
+    </mat-menu>
+    <button mat-icon-button [mat-menu-trigger-for]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
     <span class="spacer"></span>
-    <button mat-flat-button (click)="punch()" [ngClass]="{start: !working, stop: working}">{{working ? 'Stop' : 'Start'}}</button>
+    <button mat-flat-button (click)="punch()" [ngClass]="{start: !working, stop: working}" [disabled]="!(currentJob$ | async)">{{working ? 'Stop' : 'Start'}}</button>
 </mat-toolbar>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="select">
@@ -33,10 +39,19 @@
         <td mat-cell *matCellDef="let entry">{{entry.stop | date:'h:mm:ss aa'}}</td>
         <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
+    <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Time</th>
+        <td mat-cell *matCellDef="let entry">{{subtotalTime(entry) | hms}}</td>
+        <td mat-footer-cell *matFooterCellDef>{{totalTime(entries) | hms}} ({{totalTime(entries) | hms:true}})</td>
+    </ng-container>
     <ng-container matColumnDef="total">
         <th mat-header-cell *matHeaderCellDef>Total</th>
-        <td mat-cell *matCellDef="let entry">{{subtotal(entry) | hms}}</td>
-        <td mat-footer-cell *matFooterCellDef>{{total(entries) | hms}} ({{total(entries) | hms:true}})</td>
+        <td mat-cell *matCellDef="let entry">
+            <span *ngIf="currentJob$ | async as currentJob">{{subtotal(entry, currentJob) | currency}}</span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef>
+            <span *ngIf="currentJob$ | async as currentJob">{{total(entries, currentJob) | currency}}</span>
+        </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

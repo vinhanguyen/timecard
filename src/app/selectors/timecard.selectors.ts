@@ -6,5 +6,20 @@ export const selectTimecard = createFeatureSelector<fromRoot.State, fromTimecard
 
 export const selectEntries = createSelector(
   selectTimecard,
-  (state: fromTimecard.State) => state.entries
+  (state: fromTimecard.State) => state.entries.filter(e => e.job === state.currentJob)
+);
+
+export const selectJobs = createSelector(
+  selectTimecard,
+  (state: fromTimecard.State) => state.jobs
+);
+
+export const selectCurrentJob = createSelector(
+  selectTimecard,
+  (state: fromTimecard.State) => state.currentJob
+);
+
+export const selectJob = createSelector(
+  selectTimecard,
+  (state: fromTimecard.State, {name}) => state.jobs ? state.jobs.find(j => j.name === name) : null
 );

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimecardComponent } from './timecard.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HmsPipe } from './hms.pipe';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
@@ -10,10 +10,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { JobsComponent } from './jobs/jobs.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
-  declarations: [TimecardComponent, HmsPipe, ConfirmComponent],
-  entryComponents: [ConfirmComponent],
+  declarations: [TimecardComponent, HmsPipe, ConfirmComponent, JobsComponent],
+  entryComponents: [ConfirmComponent, JobsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,7 +27,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatRadioModule
   ]
 })
 export class TimecardModule { }

@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import { Entry } from '../models/entry';
-import { timer } from 'rxjs';
-import { selectEntries } from '../selectors/timecard.selectors';
+import { timer, Observable } from 'rxjs';
+import { selectEntries, selectCurrentJob, selectJob } from '../selectors/timecard.selectors';
 import { punch, load, remove } from '../actions/timecard.actions';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { Job } from '../models/job';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-timecard',
@@ -21,8 +24,10 @@ export class TimecardComponent implements OnInit {
   working: boolean;
   now: number;
   dataSource: MatTableDataSource<Entry>;
-  displayedColumns = ['select', 'start', 'stop', 'total'];
+  displayedColumns = ['select', 'start', 'stop', 'time', 'total'];
   selection = new SelectionModel<Entry>(true, []);
+  currentJob$: Observable<Job>;
+  msInHour = 1000*60*60;
 
   constructor(private store: Store<State>, private dialog: MatDialog) { }
 
@@ -32,6 +37,9 @@ export class TimecardComponent implements OnInit {
       this.dataSource = new MatTableDataSource(entries);
       this.working = entries.some(entry => !entry.stop);
     });
+    this.currentJob$ = this.store.select(selectCurrentJob).pipe(
+      mergeMap(currentJob => this.store.select(selectJob, {name: currentJob}))
+    );
     this.store.dispatch(load());
     
     timer(0, 1000).subscribe(() => {
@@ -56,14 +64,22 @@ export class TimecardComponent implements OnInit {
     });
   }
 
-  subtotal(entry: Entry) {
+  subtotalTime(entry: Entry) {
     return (entry.stop ? entry.stop : this.now) - entry.start;
   }
 
-  total(entries: Entry[]) {
+  totalTime(entries: Entry[]) {
     return entries.reduce((total, entry) => {
-      return total + this.subtotal(entry);
+      return total + this.subtotalTime(entry);
     }, 0);
+  }
+
+  subtotal(entry: Entry, job: Job) {
+    return this.subtotalTime(entry) / this.msInHour * job.rate;
+  }
+
+  total(entries: Entry[], job: Job) {
+    return this.totalTime(entries) / this.msInHour * job.rate;
   }
 
   isAllSelected() {
@@ -74,6 +90,10 @@ export class TimecardComponent implements OnInit {
 
   masterToggle() {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(entry => this.selection.select(entry));
+  }
+
+  openJobs() {
+    this.dialog.open(JobsComponent);
   }
 
 }
