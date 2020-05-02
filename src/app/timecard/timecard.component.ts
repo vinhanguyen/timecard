@@ -28,6 +28,7 @@ export class TimecardComponent implements OnInit {
   selection = new SelectionModel<Entry>(true, []);
   currentJob$: Observable<Job>;
   msInHour = 1000*60*60;
+  showHms = true;
 
   constructor(private store: Store<State>, private dialog: MatDialog) { }
 
@@ -94,6 +95,10 @@ export class TimecardComponent implements OnInit {
 
   openJobs() {
     this.dialog.open(JobsComponent);
+  }
+
+  toggleHms() {
+    this.showHms = !this.showHms;
   }
 
 }

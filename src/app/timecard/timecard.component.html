@@ -42,7 +42,12 @@
     <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef>Time</th>
         <td mat-cell *matCellDef="let entry">{{subtotalTime(entry) | hms}}</td>
-        <td mat-footer-cell *matFooterCellDef>{{totalTime(entries) | hms}} ({{totalTime(entries) | hms:true}})</td>
+        <td mat-footer-cell *matFooterCellDef>
+            <span class="clickable" *ngIf="showHms; else hoursOnly" (click)="toggleHms()">{{totalTime(entries) | hms}}</span>
+            <ng-template #hoursOnly>
+                <span class="clickable" (click)="toggleHms()">{{totalTime(entries) | hms:true}}</span>
+            </ng-template>
+        </td>
     </ng-container>
     <ng-container matColumnDef="total">
         <th mat-header-cell *matHeaderCellDef>Total</th>
