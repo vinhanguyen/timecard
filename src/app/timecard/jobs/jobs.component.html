@@ -6,7 +6,7 @@
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <th mat-cell *matCellDef="let job">
-                        <mat-radio-button [value]="job.name" (change)="changeJob(job)"></mat-radio-button>
+                        <mat-radio-button [value]="job.name" (change)="changeJob(job)" matTooltip="Select this job"></mat-radio-button>
                     </th>
                 </ng-container>
                 <ng-container matColumnDef="name">

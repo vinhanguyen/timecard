@@ -14,7 +14,9 @@
         <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <button mat-flat-button (click)="punch()" [ngClass]="{start: !working, stop: working}" [disabled]="!(currentJob$ | async)">{{working ? 'Stop' : 'Start'}}</button>
+    <span matTooltip="Select job to start" [matTooltipDisabled]="currentJob$ | async">
+        <button mat-flat-button (click)="punch()" [ngClass]="{start: !working, stop: working}" [disabled]="!(currentJob$ | async)">{{working ? 'Stop' : 'Start'}}</button>
+    </span>
 </mat-toolbar>
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="select">
