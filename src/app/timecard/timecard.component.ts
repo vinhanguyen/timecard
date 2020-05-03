@@ -54,7 +54,13 @@ export class TimecardComponent implements OnInit {
   }
 
   removeSelected() {
-    const dialogRef = this.dialog.open(ConfirmComponent);
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        title: 'Confirm Remove',
+        content: 'Are you sure you want to remove the selected entries?',
+        button: 'Remove'
+      }
+    });
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm) {
         this.selection.selected.forEach(entry => {
