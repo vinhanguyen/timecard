@@ -3,14 +3,14 @@ import { Store } from '@ngrx/store';
 import { State } from '../reducers';
 import { Entry } from '../models/entry';
 import { timer, Observable } from 'rxjs';
-import { selectEntries, selectCurrentJob, selectJob } from '../selectors/timecard.selectors';
+import { selectEntries, selectCurrentJob, selectJob, selectFirstEntry } from '../selectors/timecard.selectors';
 import { punch, load, remove } from '../actions/timecard.actions';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { Job } from '../models/job';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-timecard',
@@ -29,6 +29,7 @@ export class TimecardComponent implements OnInit {
   msInHour = 1000*60*60;
   showHms = true;
   showDate = true;
+  date$: Observable<number>;
 
   constructor(private store: Store<State>, private dialog: MatDialog) { }
 
@@ -40,6 +41,9 @@ export class TimecardComponent implements OnInit {
     });
     this.currentJob$ = this.store.select(selectCurrentJob).pipe(
       mergeMap(currentJob => this.store.select(selectJob, {name: currentJob}))
+    );
+    this.date$ = this.store.select(selectFirstEntry).pipe(
+      map(entry => entry ? entry.start : Date.now())
     );
     this.store.dispatch(load());
     

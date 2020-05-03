@@ -1,5 +1,5 @@
 <mat-toolbar>
-    <span *ngIf="showDate; else jobName" (click)="toggleTitle()" class="clickable">{{now | date:'E, MMM d, y'}}</span>
+    <span *ngIf="showDate; else jobName" (click)="toggleTitle()" class="clickable">{{date$ | async | date:'E, MMM d, y'}}</span>
     <ng-template #jobName>
         <span *ngIf="currentJob$ | async as currentJob; else noJob" (click)="toggleTitle()" class="clickable">{{currentJob.name}}</span>
         <ng-template #noJob>
