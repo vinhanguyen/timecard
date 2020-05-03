@@ -10,7 +10,7 @@
         <button mat-menu-item routerLink="/jobs">Jobs</button>
         <button mat-menu-item routerLink="/preferences">Preferences</button>
     </mat-menu>
-    <button mat-icon-button [mat-menu-trigger-for]="menu">
+    <button mat-icon-button [mat-menu-trigger-for]="menu" matTooltip="Menu">
         <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
@@ -23,17 +23,17 @@
         <th mat-header-cell *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                [indeterminate]="selection.hasValue() && !isAllSelected()" matTooltip="Select all">
             </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let entry">
             <mat-checkbox (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(entry) : null"
-                [checked]="selection.isSelected(entry)">
+                [checked]="selection.isSelected(entry)" matTooltip="Select entry">
             </mat-checkbox>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <button mat-icon-button [disabled]="!selection.hasValue()" (click)="removeSelected()">
+            <button mat-icon-button [disabled]="!selection.hasValue()" (click)="removeSelected()" matTooltip="Delete selected entries">
                 <mat-icon>delete</mat-icon>
             </button>
         </td>
