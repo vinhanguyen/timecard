@@ -29,7 +29,7 @@ export class TimecardEffects {
     )),
     map(([{job}, jobs]) => {
       if (jobs.some(j => j.name === job.name)) {
-        return addJobFailure({error: `Name '${job.name}' already exists`});
+        return addJobFailure({error: `'${job.name}' already exists`});
       }
       return addJobSuccess({job});
     })
@@ -56,14 +56,14 @@ export class TimecardEffects {
     ofType(clear),
     tap(() => {
       localStorage.clear();
-      this.snackBar.open('Timecard data cleared', null, {duration: 3000});
+      this.snackBar.open('Data cleared', null, {duration: 3000});
     })
   ), {dispatch: false});
 
   deleteJob$ = createEffect(() => this.actions$.pipe(
     ofType(deleteJob),
     tap(({job: {name}}) => {
-      this.snackBar.open(`Job '${name}' deleted`, null, {duration: 3000});
+      this.snackBar.open(`'${name}' deleted`, null, {duration: 3000});
     })
   ), {dispatch: false});
 
