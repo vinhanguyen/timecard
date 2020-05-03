@@ -50,8 +50,8 @@ export class JobsComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
         title: 'Confirm Delete',
-        content: `Are you sure you want to delete '${job.name}' and its timecard entries?`,
-        button: 'Delete Job'
+        content: `Delete '${job.name}' and its entries?`,
+        button: 'Delete'
       }
     });
     dialogRef.afterClosed().subscribe(confirm => {

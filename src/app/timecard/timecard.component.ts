@@ -61,7 +61,7 @@ export class TimecardComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
         title: 'Confirm Remove',
-        content: 'Are you sure you want to remove the selected entries?',
+        content: 'Remove selected entries?',
         button: 'Remove'
       }
     });

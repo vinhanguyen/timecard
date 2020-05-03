@@ -21,8 +21,8 @@ export class PreferencesComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
         title: 'Confirm Clear',
-        content: 'Are you sure you want to clear all data?',
-        button: 'Clear Data'
+        content: 'Clear all data?',
+        button: 'Clear'
       }
     });
     dialogRef.afterClosed().subscribe(confirm => {
