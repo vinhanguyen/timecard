@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/reducers';
 import { clear } from 'src/app/actions/timecard.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'app-preferences',
@@ -10,13 +12,24 @@ import { clear } from 'src/app/actions/timecard.actions';
 })
 export class PreferencesComponent implements OnInit {
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   clear() {
-    this.store.dispatch(clear());
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        title: 'Confirm Clear',
+        content: 'Are you sure you want to clear all data?',
+        button: 'Clear Data'
+      }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.store.dispatch(clear());
+      }
+    });
   }
 
 }

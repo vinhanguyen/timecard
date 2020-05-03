@@ -7,6 +7,8 @@ import { State } from 'src/app/reducers';
 import { selectCurrentJob, selectJobs } from 'src/app/selectors/timecard.selectors';
 import { changeJob, addJob, deleteJob } from 'src/app/actions/timecard.actions';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'app-jobs',
@@ -20,7 +22,7 @@ export class JobsComponent implements OnInit {
   dataSource: MatTableDataSource<Job>;
   displayedColumns = ['select', 'name', 'rate', 'actions'];
 
-  constructor(private store: Store<State>, private formBuilder: FormBuilder) {
+  constructor(private store: Store<State>, private formBuilder: FormBuilder, private dialog: MatDialog) {
     this.jobForm = this.formBuilder.group({
       'name': ['', Validators.required],
       'rate': ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
@@ -39,13 +41,24 @@ export class JobsComponent implements OnInit {
     this.store.dispatch(changeJob({name}));
   }
 
-  submit() {
+  add() {
     this.store.dispatch(addJob({job: this.jobForm.value}));
     this.jobForm.reset();
   }
 
   delete(job: Job) {
-    this.store.dispatch(deleteJob({job}))
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: {
+        title: 'Confirm Delete',
+        content: 'Are you sure you want to delete this job and its timecard entries?',
+        button: 'Delete Job'
+      }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.store.dispatch(deleteJob({job}))
+      }
+    });
   }
 
 }
