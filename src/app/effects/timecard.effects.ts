@@ -43,7 +43,7 @@ export class TimecardEffects {
   ), {dispatch: false});
 
   change$ = createEffect(() => this.actions$.pipe(
-    ofType(punch, remove, addJob, deleteJob, changeJob),
+    ofType(punch, remove, addJobSuccess, deleteJob, changeJob),
     mergeMap(action => of(action).pipe(
       withLatestFrom(this.store.select(selectTimecard))
     )),
