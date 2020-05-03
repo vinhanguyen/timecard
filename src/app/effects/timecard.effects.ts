@@ -40,6 +40,13 @@ export class TimecardEffects {
     })
   ), {dispatch: false});
 
+  deleteJob$ = createEffect(() => this.actions$.pipe(
+    ofType(deleteJob),
+    tap(() => {
+      this.snackBar.open('Job deleted', null, {duration: 3000});
+    })
+  ), {dispatch: false});
+
   constructor(private actions$: Actions, private store: Store<State>, private snackBar: MatSnackBar) {}
 
 }
