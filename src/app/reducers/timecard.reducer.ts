@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { Entry } from '../models/entry';
-import { punch, loadSuccess, remove, addJob, deleteJob, changeJob, clear } from '../actions/timecard.actions';
+import { punch, loadSuccess, remove, addJob, deleteJob, changeJob, clear, addJobSuccess } from '../actions/timecard.actions';
 import * as _ from 'lodash';
 import { Job } from '../models/job';
 
@@ -44,7 +44,7 @@ const timecardReducer = createReducer(
     next.entries = next.entries.filter(e => e.start !== entry.start);
     return next;
   }),
-  on(addJob, (state, {job}) => {
+  on(addJobSuccess, (state, {job}) => {
     let next = _.cloneDeep(state);
     next.jobs.push(job);
     return next;

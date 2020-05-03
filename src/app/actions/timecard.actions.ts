@@ -32,6 +32,16 @@ export const addJob = createAction(
   props<{ job: Job }>()
 );
 
+export const addJobSuccess = createAction(
+  '[Timecard] Add Job Success',
+  props<{ job: Job }>()
+);
+
+export const addJobFailure = createAction(
+  '[Timecard] Add Job Failure',
+  props<{ error: any }>()
+);
+
 export const deleteJob = createAction(
   '[Timecard] Delete Job',
   props<{ job: Job }>()
