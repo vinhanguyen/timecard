@@ -7,7 +7,6 @@ import { State } from 'src/app/reducers';
 import { selectCurrentJob, selectJobs } from 'src/app/selectors/timecard.selectors';
 import { changeJob, addJob, deleteJob } from 'src/app/actions/timecard.actions';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-jobs',
@@ -21,7 +20,7 @@ export class JobsComponent implements OnInit {
   dataSource: MatTableDataSource<Job>;
   displayedColumns = ['select', 'name', 'rate', 'actions'];
 
-  constructor(private store: Store<State>, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<JobsComponent>) {
+  constructor(private store: Store<State>, private formBuilder: FormBuilder) {
     this.jobForm = this.formBuilder.group({
       'name': ['', Validators.required],
       'rate': ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]]
@@ -38,7 +37,6 @@ export class JobsComponent implements OnInit {
 
   changeJob({name}) {
     this.store.dispatch(changeJob({name}));
-    this.dialogRef.close();
   }
 
   submit() {

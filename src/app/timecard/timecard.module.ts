@@ -18,10 +18,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [TimecardComponent, HmsPipe, ConfirmComponent, JobsComponent, PreferencesComponent],
-  entryComponents: [ConfirmComponent, JobsComponent, PreferencesComponent],
+  entryComponents: [ConfirmComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -37,7 +39,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     MatRadioModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule,
+    MatCardModule
   ]
 })
 export class TimecardModule { }

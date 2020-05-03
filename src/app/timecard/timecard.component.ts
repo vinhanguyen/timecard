@@ -9,10 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from './confirm/confirm.component';
-import { JobsComponent } from './jobs/jobs.component';
 import { Job } from '../models/job';
 import { mergeMap } from 'rxjs/operators';
-import { PreferencesComponent } from './preferences/preferences.component';
 
 @Component({
   selector: 'app-timecard',
@@ -95,20 +93,12 @@ export class TimecardComponent implements OnInit {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(entry => this.selection.select(entry));
   }
 
-  openJobs() {
-    this.dialog.open(JobsComponent);
-  }
-
   toggleHms() {
     this.showHms = !this.showHms;
   }
 
   toggleTitle() {
     this.showDate = !this.showDate;
-  }
-
-  openPreferences() {
-    this.dialog.open(PreferencesComponent);
   }
 
 }

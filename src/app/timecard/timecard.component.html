@@ -7,8 +7,8 @@
         </ng-template>
     </ng-template>
     <mat-menu #menu>
-        <button mat-menu-item (click)="openJobs()">Jobs</button>
-        <button mat-menu-item (click)="openPreferences()">Preferences</button>
+        <button mat-menu-item routerLink="/jobs">Jobs</button>
+        <button mat-menu-item routerLink="/preferences">Preferences</button>
     </mat-menu>
     <button mat-icon-button [mat-menu-trigger-for]="menu">
         <mat-icon>menu</mat-icon>
