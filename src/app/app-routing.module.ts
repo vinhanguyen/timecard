@@ -6,10 +6,10 @@ import { PreferencesComponent } from './timecard/preferences/preferences.compone
 
 
 const routes: Routes = [
-  {path: 'timecard', component: TimecardComponent},
+  {path: '', component: TimecardComponent},
   {path: 'jobs', component: JobsComponent},
   {path: 'preferences', component: PreferencesComponent},
-  {path: '**', redirectTo: '/timecard'}
+  {path: '**', redirectTo: '/'}
 ];
 
 @NgModule({
